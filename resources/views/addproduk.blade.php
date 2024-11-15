@@ -12,11 +12,16 @@
     <div class="sidebar">
         <h2>Dashboard Penjualan</h2>
         <ul>
-            <li><a href="{{ url('home') }}">Home</a></li>
-            <li><a href="{{ url('produk') }}">Produk</a></li>
+            <li><a href="{{ url(Auth::user()->role.'/home') }}">Home</a></li>
+            <li><a href="{{ url(Auth::user()->role.'/produk') }}">Produk</a></li>
             <li><a href="#">Penjualan</a></li>
-            <li><a href="#">Laporan</a></li>
-            <li><a href="#">Pengaturan</a></li>
+            <li><a href="{{ url(Auth::user()->role.'/laporan') }}">Laporan</a></li>
+            <li>
+                <form action="{{ url('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-decoration-none bg-transparent border-0 text-white" style="font-size: 18px;">Logout</button>
+                </form>
+            </li>
         </ul>
     </div>
 
@@ -36,7 +41,7 @@
             <h1>Create Produk</h1>
 
             <!-- Form to create a new produk -->
-            <form action="{{ url('/produk/add') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ url(Auth::user()->role.'/produk/add') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="nama_produk">Nama Produk</label>
@@ -54,6 +59,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="image">Gambar</label>
+                    <input type="file" name="image" class="form-control" required>
+                </div>
+
+                <div class="form-group">
                     <label for="jumlah_produk">Jumlah Produk</label>
                     <input type="number" name="jumlah_produk" class="form-control" required>
                 </div>
@@ -63,13 +73,9 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="image">Gambar</label>
-        <input type="file" name="image" class="form-control" required>
-
     <!-- Footer -->
-    <footer>
+    {{-- <footer>
         <p>&copy; 2024 Aplikasi Penjualan. All rights reserved.</p>
-    </footer>
+    </footer> --}}
 </body>
 </html>
